@@ -2,6 +2,7 @@ package com.github.sbb.drools;
 
 import com.github.sbb.drools.drools.KieSessionHelper;
 import com.github.sbb.drools.drools.RuleLoader;
+import com.github.sbb.drools.drools.RuleResult;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,6 @@ public class RuleController {
   @Autowired
   private KieSessionHelper kieSessionHelper;
 
-  @GetMapping("/")
-  public String index() {
-    System.out.println("index");
-    return "success";
-  }
-
   /**
    * 重新加载所有规则
    */
@@ -34,18 +29,18 @@ public class RuleController {
     ruleLoader.reloadAll();
     return "success";
   }
-
-  /**
-   * 重新加载给定场景下的规则
-   *
-   * @param sceneId 场景ID
-   */
-  @GetMapping("reload/{sceneId}")
-  public String reload(@PathVariable("sceneId") String sceneId) {
-    System.out.println("reload scene:" + sceneId);
-    ruleLoader.reload(sceneId);
-    return "success";
-  }
+//
+//  /**
+//   * 重新加载给定场景下的规则
+//   *
+//   * @param sceneId 场景ID
+//   */
+//  @GetMapping("reload/{sceneId}")
+//  public String reload(@PathVariable("sceneId") String sceneId) {
+//    System.out.println("reload scene:" + sceneId);
+//    ruleLoader.reload(sceneId);
+//    return "success";
+//  }
 
   /**
    * 触发给定场景规则
@@ -53,12 +48,15 @@ public class RuleController {
    * @param sceneId 场景ID
    */
   @GetMapping("fire/{sceneId}")
-  public String fire(@PathVariable("sceneId") String sceneId) {
+  public RuleResult fire(@PathVariable("sceneId") String sceneId) {
     System.out.println("fire scene:" + sceneId);
     KieSession kieSession = kieSessionHelper.getKieSessionBySceneId(sceneId);
+
+    RuleResult ruleResult = new RuleResult();
+    kieSession.insert(ruleResult);
     kieSession.fireAllRules();
     kieSession.dispose();
-    return "success";
+    return ruleResult;
   }
 
 }

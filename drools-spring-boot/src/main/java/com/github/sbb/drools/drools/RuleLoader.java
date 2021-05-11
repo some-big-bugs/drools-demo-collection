@@ -115,7 +115,7 @@ public class RuleLoader implements ApplicationRunner {
     KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
     for (RulesConfig ruleInfo : ruleInfos) {
       String fullPath = MessageFormat
-          .format("src/main/resources/rules/scene_{0}/rule_{1}.drl", String.valueOf(sceneId), String.valueOf(ruleInfo.getId()));
+          .format("src/main/resources/rules/{0}/rule_{1}.drl", String.valueOf(sceneId), String.valueOf(ruleInfo.getId()));
       kieFileSystem.write(fullPath, ruleInfo.getRule());
     }
     kieFileSystem.writeKModuleXML(kieModuleModel.toXML());
