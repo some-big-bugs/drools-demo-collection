@@ -6,3 +6,10 @@ rule "hello world"
   then
     System.out.println("hello world");
 end
+
+rule "hello world2"
+  when
+    eval(true);
+  then
+    System.out.println("hello world2");
+end

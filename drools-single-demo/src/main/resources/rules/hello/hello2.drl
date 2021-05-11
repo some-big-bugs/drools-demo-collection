@@ -1,0 +1,15 @@
+package rules.hello
+
+rule "hello2r1"
+  when
+    eval(true);
+  then
+    System.out.println("hello2r1");
+end
+
+rule "hello2r2"
+  when
+    eval(true);
+  then
+    System.out.println("hello2r2");
+end

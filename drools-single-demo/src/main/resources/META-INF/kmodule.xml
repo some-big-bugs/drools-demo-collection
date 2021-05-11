@@ -3,4 +3,7 @@
   <kbase name="rules" packages="rules.hello">
     <ksession name="helloWorld" default="true"/>
   </kbase>
+  <kbase name="rulep" packages="rules.person">
+    <ksession name="person"/>
+  </kbase>
 </kmodule>

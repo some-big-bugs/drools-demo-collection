@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC
+  "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+  <classPathEntry location="/Users/zhangyunan/.m2/repository/mysql/mysql-connector-java/5.1.9/mysql-connector-java-5.1.9.jar"/>
+
+  <context id="mysql" targetRuntime="MyBatis3">
+    <!-- 这个插件可以方式重新生成 mapper 文件时，采用追加而不是覆盖的问题   -->
+    <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+
+    <commentGenerator>
+      <property name="suppressDate" value="true"/>
+      <property name="suppressAllComments" value="true"/>
+    </commentGenerator>
+    <jdbcConnection
+      connectionURL="jdbc:mysql://127.0.0.1:3306/drools_rules?characterEncoding=UTF-8&amp;useUnicode=true&amp;serverTimezone=GMT%2B8"
+      driverClass="com.mysql.jdbc.Driver"
+      password="123456" userId="root"/>
+
+    <javaModelGenerator targetPackage="com.github.sbb.drools.infrastructure.entity" targetProject="./src/main/java"/>
+    <sqlMapGenerator targetPackage="com.github.sbb.drools.infrastructure.mapper" targetProject="./src/main/resources"/>
+    <javaClientGenerator targetPackage="com.github.sbb.drools.infrastructure.mapper" targetProject="./src/main/java"
+      type="XMLMAPPER"/>
+    <table tableName="rules_config"/>
+  </context>
+</generatorConfiguration>
