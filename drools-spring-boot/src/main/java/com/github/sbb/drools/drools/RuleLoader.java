@@ -107,9 +107,11 @@ public class RuleLoader implements ApplicationRunner {
   private void reload(String sceneId, List<RulesConfig> ruleInfos) {
     KieServices kieServices = KieServices.get();
     KieModuleModel kieModuleModel = kieServices.newKieModuleModel();
+
     KieBaseModel kieBaseModel = kieModuleModel.newKieBaseModel(buildKbaseName(sceneId));
     kieBaseModel.setDefault(true);
     kieBaseModel.addPackage(sceneId);
+
     kieBaseModel.newKieSessionModel(buildKsessionName(sceneId));
 
     KieFileSystem kieFileSystem = kieServices.newKieFileSystem();

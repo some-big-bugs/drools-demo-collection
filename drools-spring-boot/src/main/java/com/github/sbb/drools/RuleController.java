@@ -1,12 +1,16 @@
 package com.github.sbb.drools;
 
+import com.github.sbb.drools.drools.DefaultContext;
 import com.github.sbb.drools.drools.KieSessionHelper;
 import com.github.sbb.drools.drools.RuleLoader;
 import com.github.sbb.drools.drools.RuleResult;
+import java.util.Map;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,15 +51,22 @@ public class RuleController {
    *
    * @param sceneId 场景ID
    */
-  @GetMapping("fire/{sceneId}")
-  public RuleResult fire(@PathVariable("sceneId") String sceneId) {
+  @PostMapping("fire/{sceneId}")
+  public RuleResult fire(@PathVariable("sceneId") String sceneId, @RequestBody Map<String, Object> params) {
     System.out.println("fire scene:" + sceneId);
     KieSession kieSession = kieSessionHelper.getKieSessionBySceneId(sceneId);
-
     RuleResult ruleResult = new RuleResult();
-    kieSession.insert(ruleResult);
-    kieSession.fireAllRules();
-    kieSession.dispose();
+    try {
+
+      DefaultContext defaultContext = new DefaultContext(params);
+
+      kieSession.insert(defaultContext);
+      kieSession.insert(ruleResult);
+      kieSession.fireAllRules();
+    } finally {
+      kieSession.dispose();
+    }
+
     return ruleResult;
   }
 
